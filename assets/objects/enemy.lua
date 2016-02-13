@@ -14,25 +14,26 @@ end
 
 function Enemy:create()
     if #self.enemy_table == 0 then
-        table.insert(self.enemy_table, {x = self.x, y = self.y})
+        table.insert(self.enemy_table, {x = self.x, alive = true})
     else
-        table.insert(self.enemy_table, {x = self.enemy_table[#self.enemy_table].x + self.spacing, alive = true)
+        table.insert(self.enemy_table, {x = self.enemy_table[#self.enemy_table].x + self.spacing, alive = true})
     end
 end
 
 function Enemy:checkCollision()
     for i, enemy in ipairs(self.enemy_table) do
-        if enemy.x >= love.graphics.getWidth() then
-            self.y = self.y + spacing
+        if enemy.x + self.width >= love.graphics.getWidth() then
+            self.y = self.y + self.spacing
             enemy.x = self.x
         end
     end
 end
 
-function Enemy:update()
+function Enemy:update(dt)
     for i, enemy in ipairs(self.enemy_table) do
+        prevX = enemy.x
         if i ~= 1 then
-            enemy.x = enemy[x-1] + self.spacing
+            enemy.x = prevX + self.spacing + self.speed * dt
             enemy.y = self.y
         end
     end
@@ -42,8 +43,10 @@ function Enemy:draw()
     for i, enemy in ipairs(self.enemy_table) do
         if enemy.alive then
             love.graphics.setColor(0, 255, 0)
-            love.graphics.rectangle("fill", enemy.x, enemy.y, self.width, self.height)
+            love.graphics.rectangle("fill", enemy.x, self.y, self.width, self.height)
         end
     end
 end
+
+return Enemy
 --Enemy:update(), Enemy:destroy() --> Compensate for spacing Enemy:draw()
