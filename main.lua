@@ -12,7 +12,7 @@ local enemy_array = {}
 function love.load()
     ship = Ship:new(100,650,100,20)
     bullets = Bullet:new(300, 20, 40,bullet_array)
-    enemy = Enemy:new(50, 80, 80, 20, 20, 100, enemy_array)
+    enemy = Enemy:new(100, 80, 80, 20, 20, 100, enemy_array)
     enemy:create()
     enemy:create()
     enemy:create()

@@ -1,4 +1,4 @@
-local class = require 'libs.middleclass'
+ local class = require 'libs.middleclass'
 
 local Enemy = class('Enemy')
 
@@ -23,16 +23,22 @@ end
 function Enemy:checkCollision()
     for i, enemy in ipairs(self.enemy_table) do
         if enemy.x + self.width >= love.graphics.getWidth() then
-            enemy.y = enemy.y + self.spacing
-            enemy.x = self.x
+            self.y = self.y + self.spacing
+            for i, enemy in ipairs(self.enemy_table) do
+                if i ~= 1 then
+                    enemy.x = self.x + self.spacing * (i - 1)
+                else
+                    enemy.x = self.x
+                end
+            end
         end
     end
 end
 
 function Enemy:update(dt)
     for i, enemy in ipairs(self.enemy_table) do
-            enemy.x = enemy.x + self.speed * dt
-            --enemy.y = self.y
+                enemy.x = enemy.x + self.speed * dt
+                enemy.y = self.y
     end
 end
 
@@ -46,4 +52,4 @@ function Enemy:draw()
 end
 
 return Enemy
---fix y axis
+-- Collision and dynamic enemy add
